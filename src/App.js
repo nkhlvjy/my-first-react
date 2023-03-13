@@ -1,6 +1,6 @@
 import Expenses from "./components/expenses/Expenses";
 import NewExpense from "./components/newexpense/NewExpense";
-import ChatGPT from "./components/ChatGPT";
+import ChatWidget from "./components/ChatGPT";
 import Dictaphone from "./components/VoiceAssist";
 
 const App = () => {
@@ -28,7 +28,7 @@ const App = () => {
   ]
   return (
     <div>
-      <Dictaphone></Dictaphone>
+      <ChatWidget></ChatWidget>
     </div>
   );
 }
