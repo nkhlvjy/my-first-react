@@ -1,0 +1,50 @@
+.microphone-button {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.microphone-button:before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #f44336;
+  transition: all 0.2s ease-in-out;
+  opacity: 0;
+}
+
+.microphone-button:hover:before {
+  width: 40px;
+  height: 40px;
+  opacity: 0.3;
+}
+
+.microphone-button:active:before {
+  width: 60px;
+  height: 60px;
+  opacity: 0.6;
+}
+
+.microphone-button span {
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 10px;
+  height: 30px;
+  border-radius: 5px;
+  background-color: #333;
+}

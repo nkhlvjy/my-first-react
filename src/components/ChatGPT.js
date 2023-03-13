@@ -1,50 +1,52 @@
-import React, { useState, useEffect } from "react";
-import OpenAI from "openai";
-import './ChatGPT.css'
+import { useState } from 'react';
+import { Widget, addResponseMessage } from 'react-chat-widget';
+import 'react-chat-widget/lib/styles.css';
+import axios from 'axios';
 
-const ChatGPT = () => {
-  const [response, setResponse] = useState("");
-  const [input, setInput] = useState("");
-  const [openAI, setOpenAI] = useState(null);
 
-  useEffect(() => {
-    const openAI = new OpenAI({ 
-      apiKey: "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" 
-    });
-    setOpenAI(openAI);
-  }, []);
+function ChatWidget() {
+  const [isOpen, setIsOpen] = useState(false);
 
-  const handleInputChange = (e) => {
-    setInput(e.target.value);
-  };
+  function handleNewUserMessage(newMessage) {
+    sendMessage(newMessage);
+  }
 
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
-    const result = await openAI.complete({
-      engine: "davinci",
-      prompt: input,
-      maxTokens: 150,
-      n: 1,
-      stop: "\n",
-    });
-    setResponse(result.data.choices[0].text);
-    setInput("");
-  };
+  async function sendMessage(message) {
+    try {
+      const response = await axios.post(
+        'https://api.openai.com/v1/chat/completions',
+        {
+          temperature: 0.5,
+          model: "gpt-3.5-turbo",
+          messages: [{"role": "user", "content": message}]
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer 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`,
+          },
+        }
+      );
+  
+      const text = response.data.choices[0].message.content;
+      addResponseMessage(text);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  
+  
 
   return (
-    <div className="new-expense">
-      <form onSubmit={handleFormSubmit}>
-        <input
-          type="text"
-          placeholder="Ask a question"
-          value={input}
-          onChange={handleInputChange}
-        />
-        <button type="submit">Send</button>
-      </form>
-      <p>{response}</p>
-    </div>
+    <Widget
+      title="I'm Jarvis Interactive"
+      subtitle="AMA!"
+      handleNewUserMessage={handleNewUserMessage}
+      isOpen={isOpen}
+      onClick={() => setIsOpen(true)}
+      onClose={() => setIsOpen(false)}
+    />
   );
-};
+}
 
-export default ChatGPT;
+export default ChatWidget;
